@@ -1,0 +1,41 @@
+class BankAccount:
+    __account_number = ''
+    __account_name = ''
+    __balance = 0
+
+    def set_details(self, account_number, account_name, balance):
+        self.account_number = account_number
+        self.account_name = account_name
+        self.balance = balance
+
+    def display(self):
+        print('Account number: \t {}'.format(self.account_number))
+        print('Account name: \t {}'.format(self.account_name))
+        print('Balance: \t {}'.format(self.balance))
+
+    def withdraw(self, amount):
+        if amount < 0 or amount > self.get_balance():
+            print('amount must be > 0 and <= balance')
+        else:
+            self.set_balance(self.get_balance() - amount)
+
+    def deposit(self, amount):
+        if amount < 0 or amount:
+            print('amount must be >')
+        else:
+            self.set_balance(self.get_balance() + amount)
+
+    def get_account_number(self):
+        return self.__account_number
+
+    def get_account_name(self):
+        return self.__account_name
+
+    def get_balance(self):
+        return self.__balance
+
+    def set_balance(self, balance):
+        if balance < 0:
+            print('balance must be >= 0')
+        else:
+            self.__balance = balance
