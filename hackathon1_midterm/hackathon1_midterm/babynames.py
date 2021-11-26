@@ -36,8 +36,22 @@ def extract_names(filename):
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
   # +++your code here+++
-  pass
-
+  regex_year = r'<h3 align="center">Popularity in (\d+)<\/h3>'
+  regex_names = r'<tr align="right"><td>(\d+)<\/td><td>(.+)<\/td><td>(.+)<\/td>'
+  try:
+    year = None
+    names = []
+    with open(filename, 'r', encoding='utf-8') as f:
+      content = f.read()
+      year_search = re.search(regex_year, content)
+      if year_search:
+        year = year_search.group(1)
+      for name_result in re.findall(regex_names, content):
+        names.append('{} {}'.format(name_result[1], name_result[0]))
+        names.append('{} {}'.format(name_result[2], name_result[0]))
+    return [year] + names
+  except:
+    return None
 
 def main():
   # Chương trình này có thể nhận đối số đầu vào là một hoặc nhiều tên file
@@ -56,6 +70,18 @@ def main():
   # +++your code here+++
   # Với mỗi tên file, gọi hàm extract_names ở trên và in kết quả ra stdout
   # hoặc viết kết quả ra file summary (nếu có input --summaryfile).
-  
+  output = ''
+  for filename in args:
+    data = extract_names(filename)
+    if data is None:
+      continue
+    output += str(data) + '\n'
+  if summary:
+    with open('summary', 'w', encoding='utf-8') as f:
+      f.write(output)
+      f.flush()
+  else:
+    print(output)
+
 if __name__ == '__main__':
   main()
